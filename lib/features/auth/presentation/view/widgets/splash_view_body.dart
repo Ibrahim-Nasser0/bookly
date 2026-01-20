@@ -1,5 +1,10 @@
 import 'package:bookly/core/constant/app_assets.dart';
+import 'package:bookly/core/constant/app_duration.dart';
+import 'package:bookly/features/home/presentation/view/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -14,12 +19,27 @@ class _SplashViewBodyState extends State<SplashViewBody>
   late Animation<Offset> slidingAnimation;
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
 
+    initSlidingAnimation();
+    navigateToHome();
+  }
+
+  void navigateToHome() {
+    Future.delayed(AppDuration.splashScreen, () {
+      Get.to(
+        () => const HomeView(),
+        transition: Transition.leftToRight,
+        duration: AppDuration.screenTransition,
+      );
+    });
+  }
+
+  void initSlidingAnimation() {
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 2),
     );
     slidingAnimation =
         Tween<Offset>(begin: const Offset(0, 6), end: Offset.zero).animate(
