@@ -1,6 +1,3 @@
-
-
-
 import 'package:bookly/core/constant/app_sizes.dart';
 import 'package:bookly/features/home/presentation/view/widgets/book_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -18,8 +15,8 @@ class HomeSlider extends StatelessWidget {
           BookCard(),
       options: CarouselOptions(
         height: AppSizes.cardHeight.h,
-        aspectRatio: AppSizes.cardWidth / AppSizes.cardHeight,
-        viewportFraction: 0.5,
+        aspectRatio: AppSizes.cardWidth.w / AppSizes.cardHeight.h,
+        viewportFraction: 0.57,
         initialPage: 0,
         enableInfiniteScroll: false,
 
