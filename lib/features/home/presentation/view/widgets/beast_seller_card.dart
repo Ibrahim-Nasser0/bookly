@@ -1,39 +1,41 @@
 import 'package:bookly/core/constant/app_sizes.dart';
+import 'package:bookly/core/utils/app_router.dart';
 import 'package:bookly/core/utils/styles.dart';
 import 'package:bookly/features/home/presentation/view/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class BestSellerCard extends StatelessWidget {
   const BestSellerCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 107.h,
+    return GestureDetector(
+      onTap: () => GoRouter.of(context).push(AppRouter.bookDetailsView),
+      child: SizedBox(
+        width: double.infinity,
+        height: 107.h,
 
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          BookCard(small: true),
-          Gap(5.w),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 5.0,
-              
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            BookCard(small: true),
+            Gap(5.w),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TitleAndAutherName(),
+                  const Spacer(),
+                  const PriceAndRatingRow(),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TitleAndAutherName(),
-                const Spacer(),
-                const PriceAndRatingRow(),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

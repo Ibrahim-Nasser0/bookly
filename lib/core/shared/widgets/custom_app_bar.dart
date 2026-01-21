@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget {
             onPressed: () {},
             icon: Icon(
               FontAwesomeIcons.magnifyingGlass,
-              size: AppSizes.iconSize.h,
+              size: AppSizes.largIconSize.h,
             ),
           ),
         ],

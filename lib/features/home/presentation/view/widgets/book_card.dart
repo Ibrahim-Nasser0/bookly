@@ -1,5 +1,3 @@
-
-
 import 'package:bookly/core/constant/app_assets.dart';
 import 'package:bookly/core/constant/app_sizes.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +28,7 @@ class BookCard extends StatelessWidget {
               icon: CircleAvatar(
                 radius: 20.r,
                 backgroundColor: Colors.transparent.withOpacity(0.9),
-                child: Icon(Icons.play_arrow, size: AppSizes.iconSize.sp),
+                child: Icon(Icons.play_arrow, size: AppSizes.largIconSize.sp),
               ),
             ),
     );
