@@ -1,5 +1,6 @@
 import 'package:bookly/core/constant/app_assets.dart';
 import 'package:bookly/core/constant/app_duration.dart';
+import 'package:bookly/core/utils/styles.dart';
 import 'package:bookly/features/home/presentation/view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -19,7 +20,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
   late Animation<Offset> slidingAnimation;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
 
     initSlidingAnimation();
@@ -87,7 +88,7 @@ class AnimatedText extends StatelessWidget {
         child: Text(
           'Read Free Books',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: Styles.titleMedium,
         ),
       ),
     );
