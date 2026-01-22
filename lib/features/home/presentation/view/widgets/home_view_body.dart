@@ -6,7 +6,6 @@ import 'package:bookly/features/home/presentation/view/widgets/best_seller_slive
 import 'package:bookly/features/home/presentation/view/widgets/home_slider.dart';
 import 'package:flutter/material.dart';
 
-
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
 
@@ -22,7 +21,6 @@ class HomeViewBody extends StatelessWidget {
           toolbarHeight: 80,
           title: CustomAppBar(),
         ),
-
 
         const SliverToBoxAdapter(child: HomeSlider()),
         SliverAppBar(

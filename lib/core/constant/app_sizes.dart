@@ -1,6 +1,6 @@
 class AppSizes {
   static const double padding = 20;
-  
+
   static const double smallIconSize = 14;
   static const double mediumIconSize = 20;
   static const double largIconSize = 24;

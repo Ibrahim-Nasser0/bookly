@@ -21,7 +21,7 @@ class SearchViewBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: .start,
           children: [
-            CustomBookDetailsAppBar(),
+            const CustomBookDetailsAppBar(),
             Gap(10.h),
             const CustomSearchField(),
             Gap(20.h),

@@ -16,5 +16,4 @@ abstract class Styles {
     fontWeight: FontWeight.w500,
     overflow: TextOverflow.ellipsis,
   );
-  
 }
