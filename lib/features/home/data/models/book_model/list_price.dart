@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class ListPrice extends Equatable {
-  final int? amount;
+  final double? amount;
   final String? currencyCode;
 
   const ListPrice({this.amount, this.currencyCode});
 
   factory ListPrice.fromJson(Map<String, dynamic> json) => ListPrice(
-    amount: json['amount'] as int?,
+    amount: (json['amount'] as num?)?.toDouble(),
     currencyCode: json['currencyCode'] as String?,
   );
 

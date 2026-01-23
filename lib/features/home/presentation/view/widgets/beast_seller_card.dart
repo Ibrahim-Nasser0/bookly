@@ -1,6 +1,7 @@
 import 'package:bookly/core/constant/app_sizes.dart';
 import 'package:bookly/core/utils/app_router.dart';
 import 'package:bookly/core/utils/styles.dart';
+import 'package:bookly/features/home/data/models/book_model/book_model.dart';
 import 'package:bookly/features/home/presentation/view/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +9,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class BestSellerCard extends StatelessWidget {
-  const BestSellerCard({super.key});
+  const BestSellerCard({super.key, this.book = const BookModel()});
+  final BookModel book;
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +23,25 @@ class BestSellerCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            BookCard(small: true),
+            BookCard(small: true, book: book),
             Gap(5.w),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TitleAndAutherName(),
-                  const Spacer(),
-                  const PriceAndRatingRow(),
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleAndAutherName(
+                      auther: book.volumeInfo!.authors![0],
+                      title: book.volumeInfo!.title!,
+                    ),
+                    const Spacer(),
+                    PriceAndRatingRow(
+                      averageRating: book.volumeInfo!.averageRating!,
+                      ratingCount: book.volumeInfo!.ratingCount!,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -42,7 +52,13 @@ class BestSellerCard extends StatelessWidget {
 }
 
 class TitleAndAutherName extends StatelessWidget {
-  const TitleAndAutherName({super.key});
+  const TitleAndAutherName({
+    super.key,
+    required this.auther,
+    required this.title,
+  });
+  final String auther;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +66,17 @@ class TitleAndAutherName extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Harry Potter\nand the Goblet of Fire', // Book Title
+          title, // Book Title
           style: Styles.titleMedium,
           maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
         SizedBox(width: 5.w),
         Text(
-          'J.K. Rowling', // Author Name
+          auther,
           style: Styles.subTitle,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
       ],
     );
@@ -65,7 +84,13 @@ class TitleAndAutherName extends StatelessWidget {
 }
 
 class PriceAndRatingRow extends StatelessWidget {
-  const PriceAndRatingRow({super.key});
+  const PriceAndRatingRow({
+    super.key,
+    required this.averageRating,
+    required this.ratingCount,
+  });
+  final double averageRating;
+  final int ratingCount;
 
   @override
   Widget build(BuildContext context) {
@@ -87,11 +112,13 @@ class PriceAndRatingRow extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: '4.5', // Rating
+                text: averageRating == 0
+                    ? 'null'
+                    : averageRating.toString(), // Rating
                 style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
               TextSpan(
-                text: ' (200)', // Number of Ratings
+                text: ' ($ratingCount)', // Number of Ratings
                 style: TextStyle(color: Colors.white70, fontSize: 14.sp),
               ),
             ],

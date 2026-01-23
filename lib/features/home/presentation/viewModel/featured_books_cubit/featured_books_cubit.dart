@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:bookly/features/home/data/models/book_model/book_model.dart';
 import 'package:bookly/features/home/data/repos/home_repo.dart';
@@ -10,12 +11,18 @@ class FeaturedBooksCubit extends Cubit<FeaturedBooksState> {
   final HomeRepo homeRepo;
 
   Future<void> fetchFeaturedBooks() async {
+   
     emit(FeaturedBooksLoading());
     var result = await homeRepo.fetchFeaturedBooks();
     result.fold(
-      (failure) => emit(FeaturedBooksFailure(failure.errMessage)),
-      (books) => emit(FeaturedBooksSuccess(books)),
+      (failure) {
+        emit(FeaturedBooksFailure(failure.errMessage));
+        log('Failed to fetch featured books: ${failure.errMessage}');
+      },
+      (books) {
+        emit(FeaturedBooksSuccess(books));
+        log('Successfully fetched ${books.length} featured books');
+      },
     );
   }
-
 }

@@ -17,7 +17,7 @@ class Offer extends Equatable {
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
-    finskyOfferType: json['finskyOfferType'] as int?,
+    finskyOfferType: (json['finskyOfferType'] as num?)?.toInt(),
     listPrice: json['listPrice'] == null
         ? null
         : ListPrice.fromJson(json['listPrice'] as Map<String, dynamic>),

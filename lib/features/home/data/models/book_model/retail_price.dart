@@ -7,7 +7,7 @@ class RetailPrice extends Equatable {
   const RetailPrice({this.amount, this.currencyCode});
 
   factory RetailPrice.fromJson(Map<String, dynamic> json) => RetailPrice(
-    amount: json['amount'] as int?,
+    amount: (json['amount'] as num?)?.toInt(),
     currencyCode: json['currencyCode'] as String?,
   );
 

@@ -10,8 +10,8 @@ class AppSizes {
   static const double borderRadius = 16;
   static const double cardBorderRadius = 20;
 
-  static const double cardHeight = 225;
-  static const double cardWidth = 165;
+  static const double cardHeight = 205;
+  static const double cardWidth = 155;
 
   static const double smallCardHeight = 113.6;
   static const double smallCardWidth = 71;
