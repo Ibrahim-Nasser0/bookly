@@ -1,24 +1,24 @@
 part of 'newset_books_cubit.dart';
 
-sealed class NewsetBooksState extends Equatable {
-  const NewsetBooksState();
+sealed class NewestBooksState extends Equatable {
+  const NewestBooksState();
 
   @override
   List<Object> get props => [];
 }
 
-final class NewsetBooksInitial extends NewsetBooksState {}
+final class NewestBooksInitial extends NewestBooksState {}
 
-final class NewsetBooksLoading extends NewsetBooksState {}
+final class NewestBooksLoading extends NewestBooksState {}
 
-final class NewsetBooksFailure extends NewsetBooksState {
+final class NewestBooksFailure extends NewestBooksState {
   final String errMessage;
 
-  const NewsetBooksFailure(this.errMessage);
+  const NewestBooksFailure(this.errMessage);
 }
 
-final class NewsetBooksSuccess extends NewsetBooksState {
+final class NewestBooksSuccess extends NewestBooksState {
   final List<BookModel> books;
 
-  const NewsetBooksSuccess(this.books);
+  const NewestBooksSuccess(this.books);
 }
