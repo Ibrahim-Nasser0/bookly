@@ -2,6 +2,7 @@ import 'package:bookly/core/constant/app_sizes.dart';
 import 'package:bookly/core/shared/widgets/custom_error_widget.dart';
 import 'package:bookly/core/shared/widgets/custom_loading_indicator.dart';
 import 'package:bookly/core/utils/app_router.dart';
+import 'package:bookly/core/utils/functions/launce_uri.dart';
 import 'package:bookly/core/utils/styles.dart';
 import 'package:bookly/features/home/data/models/book_model/book_model.dart';
 import 'package:bookly/features/home/presentation/view/widgets/book_card.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+
 
 class BookDetailsViewBody extends StatelessWidget {
   const BookDetailsViewBody({super.key, required this.book});
@@ -51,7 +53,7 @@ class BookDetailsViewBody extends StatelessWidget {
             ratingCount: book.volumeInfo?.ratingCount ?? 0,
           ),
           Gap(30.h),
-          const BooksAction(),
+          BooksAction(book: book),
           Gap(30.h),
           const AlsoLikeBooks(),
         ],
@@ -119,7 +121,15 @@ class AlsoLikeBooks extends StatelessWidget {
 }
 
 class BooksAction extends StatelessWidget {
-  const BooksAction({super.key});
+  const BooksAction({super.key, required this.book});
+  final BookModel book;
+
+  String isAvailable(String text, String? link) {
+    if ((link == null)) {
+      return "Not Available";
+    }
+    return text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,22 +137,39 @@ class BooksAction extends StatelessWidget {
       crossAxisAlignment: .center,
       mainAxisAlignment: .center,
       children: [
-        const CustomButton(text: "Free"),
-        const CustomButton(left: false, text: 'Free preview'),
+        CustomButton(
+          text: isAvailable("Free", book.saleInfo!.buyLink!),
+          onPressed: () async {
+            await lunchCustomUrl(context, book.saleInfo!.buyLink!);
+          },
+        ),
+        CustomButton(
+          left: false,
+          text: isAvailable('Free preview', book.volumeInfo!.previewLink!),
+          onPressed: () async {
+            await lunchCustomUrl(context, book.volumeInfo!.previewLink!);
+          },
+        ),
       ],
     );
   }
 }
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, this.left = true, required this.text});
+  const CustomButton({
+    super.key,
+    this.left = true,
+    required this.text,
+    required this.onPressed,
+  });
   final bool left;
   final String text;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: TextButton.styleFrom(
         minimumSize: Size(130.w, 48.h),
         shape: RoundedRectangleBorder(
