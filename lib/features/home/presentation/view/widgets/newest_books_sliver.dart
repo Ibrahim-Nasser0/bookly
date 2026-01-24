@@ -5,8 +5,8 @@ import 'package:bookly/features/home/presentation/viewModel/newset_books_cubit/n
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BestSellerSliver extends StatelessWidget {
-  const BestSellerSliver({super.key});
+class NewestBooksSliver extends StatelessWidget {
+  const NewestBooksSliver({super.key});
 
   @override
   Widget build(BuildContext context) {

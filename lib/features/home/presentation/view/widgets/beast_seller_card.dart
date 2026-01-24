@@ -15,7 +15,8 @@ class BestSellerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => GoRouter.of(context).push(AppRouter.bookDetailsView),
+      onTap: () =>
+          GoRouter.of(context).push(AppRouter.bookDetailsView, extra: book),
       child: SizedBox(
         width: double.infinity,
         height: 107.h,
@@ -32,9 +33,14 @@ class BestSellerCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TitleAndAutherName(
-                      auther: book.volumeInfo!.authors![0],
-                      title: book.volumeInfo!.title!,
+                      title: book.volumeInfo?.title ?? 'No Title',
+                      auther:
+                          (book.volumeInfo?.authors != null &&
+                              book.volumeInfo!.authors!.isNotEmpty)
+                          ? book.volumeInfo!.authors!.first
+                          : 'Unknown Author',
                     ),
+
                     const Spacer(),
                     PriceAndRatingRow(
                       averageRating: book.volumeInfo!.averageRating!,
@@ -99,12 +105,11 @@ class PriceAndRatingRow extends StatelessWidget {
 
       children: [
         Text(
-          '19.99', // Price
+          'Free', // Price
           style: Styles.titleMedium,
         ),
-        Gap(2.w),
-        Icon(Icons.euro_sharp, size: 16.sp),
-        Gap(30.w),
+
+        Spacer(),
 
         Icon(Icons.star, color: Colors.amber, size: AppSizes.smallIconSize.sp),
         Gap(2.w),
@@ -112,9 +117,7 @@ class PriceAndRatingRow extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: averageRating == 0
-                    ? 'null'
-                    : averageRating.toString(), // Rating
+                text: averageRating.toString(), // Rating
                 style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
               TextSpan(
@@ -123,8 +126,6 @@ class PriceAndRatingRow extends StatelessWidget {
               ),
             ],
           ),
-
-          // style: TextStyle(color: Colors.white, fontSize: 14.sp),
         ),
       ],
     );

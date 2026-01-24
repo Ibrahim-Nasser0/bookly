@@ -17,15 +17,19 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadiusGeometry.circular(AppSizes.cardBorderRadius),
-      child: CachedNetworkImage(
-        fit: BoxFit.fill,
-        width: small ? AppSizes.smallCardWidth.w : AppSizes.cardWidth.w,
-        height: small ? AppSizes.smallCardHeight.h : AppSizes.cardHeight.h,
-        imageUrl: book.volumeInfo!.imageLinks!.thumbnail!,
-        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-          child: CircularProgressIndicator(value: downloadProgress.progress),
+      child: Hero(
+        transitionOnUserGestures: true,
+        tag: book.id ?? book.volumeInfo?.title ?? UniqueKey(),
+        child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          width: small ? AppSizes.smallCardWidth.w : AppSizes.cardWidth.w,
+          height: small ? AppSizes.smallCardHeight.h : AppSizes.cardHeight.h,
+          imageUrl: book.volumeInfo!.imageLinks!.thumbnail!,
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+            child: CircularProgressIndicator(value: downloadProgress.progress),
+          ),
+          errorWidget: (context, url, error) => Icon(Icons.error),
         ),
-        errorWidget: (context, url, error) => Icon(Icons.error),
       ),
     );
   }

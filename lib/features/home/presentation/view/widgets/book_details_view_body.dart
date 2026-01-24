@@ -1,13 +1,21 @@
-import 'package:bookly/core/constant/app_assets.dart';
 import 'package:bookly/core/constant/app_sizes.dart';
+import 'package:bookly/core/shared/widgets/custom_error_widget.dart';
+import 'package:bookly/core/shared/widgets/custom_loading_indicator.dart';
+import 'package:bookly/core/utils/app_router.dart';
 import 'package:bookly/core/utils/styles.dart';
+import 'package:bookly/features/home/data/models/book_model/book_model.dart';
+import 'package:bookly/features/home/presentation/view/widgets/book_card.dart';
+import 'package:bookly/features/home/presentation/viewModel/similar_books_cubit/similar_books_cubit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class BookDetailsViewBody extends StatelessWidget {
-  const BookDetailsViewBody({super.key});
-
+  const BookDetailsViewBody({super.key, required this.book});
+  final BookModel book;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,12 +26,30 @@ class BookDetailsViewBody extends StatelessWidget {
         children: [
           const CustomBookDetailsAppBar(),
           Gap(20.h),
-          Image.asset(AppAssets.coverBook, height: 220.h),
+          Hero(
+            transitionOnUserGestures: true,
+            tag: book.id ?? book.volumeInfo?.title ?? UniqueKey(),
+            child: CachedNetworkImage(
+              imageUrl: book.volumeInfo?.imageLinks?.thumbnail ?? '',
+              height: 220.h,
+              fit: BoxFit.cover,
+            ),
+          ),
+
           Gap(20.h),
-          Text('The Jungle Book', style: Styles.titleMedium),
-          Text(' Rudyard Kipling', style: Styles.subTitle),
+          Text(book.volumeInfo?.title ?? 'No Title', style: Styles.titleMedium),
+
+          Text(
+            (book.volumeInfo?.authors?.isNotEmpty ?? false)
+                ? book.volumeInfo!.authors![0]
+                : 'Unknown Author',
+            style: Styles.subTitle,
+          ),
           Gap(10.h),
-          const RateingRow(),
+          RateingRow(
+            rating: book.volumeInfo?.averageRating ?? 0,
+            ratingCount: book.volumeInfo?.ratingCount ?? 0,
+          ),
           Gap(30.h),
           const BooksAction(),
           Gap(30.h),
@@ -53,14 +79,34 @@ class AlsoLikeBooks extends StatelessWidget {
             Expanded(
               child: SizedBox(
                 height: 90.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: 8.w),
-                      child: Image.asset(AppAssets.coverBook),
-                    );
+                child: BlocBuilder<SimilarBooksCubit, SimilarBooksState>(
+                  builder: (context, state) {
+                    if (state is SimilarBooksSuccess) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.books.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(right: 8.w),
+                            child: GestureDetector(
+                              onTap: () => GoRouter.of(context).push(
+                                AppRouter.bookDetailsView,
+                                extra: state.books[index],
+                              ),
+                              child: BookCard(
+                                small: true,
+                                book: state.books[index],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else if (state is SimilarBooksLoading) {
+                      return const CustomLoadingIndicator();
+                    } else if (state is SimilarBooksFailure) {
+                      return CustomErrorWidget(errorMessage: state.errMessage);
+                    }
+                    return SizedBox();
                   },
                 ),
               ),
@@ -81,7 +127,7 @@ class BooksAction extends StatelessWidget {
       crossAxisAlignment: .center,
       mainAxisAlignment: .center,
       children: [
-        const CustomButton(text: "19.99€"),
+        const CustomButton(text: "Free"),
         const CustomButton(left: false, text: 'Free preview'),
       ],
     );
@@ -126,7 +172,13 @@ class CustomButton extends StatelessWidget {
 }
 
 class RateingRow extends StatelessWidget {
-  const RateingRow({super.key});
+  const RateingRow({
+    super.key,
+    required this.rating,
+    required this.ratingCount,
+  });
+  final double rating;
+  final int ratingCount;
 
   @override
   Widget build(BuildContext context) {
@@ -139,11 +191,11 @@ class RateingRow extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: '4.5', // Rating
+                text: rating.toString(), // Rating
                 style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
               TextSpan(
-                text: ' (200)', // Number of Ratings
+                text: ' ($ratingCount)', // Number of Ratings
                 style: TextStyle(color: Colors.white70, fontSize: 14.sp),
               ),
             ],

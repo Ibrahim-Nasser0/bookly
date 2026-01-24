@@ -1,4 +1,5 @@
 import 'package:bookly/core/errors/failurs.dart';
+import 'package:bookly/core/utils/api_end_points.dart';
 import 'package:dio/dio.dart';
 
 class ApiService {
@@ -8,7 +9,10 @@ class ApiService {
 
   Future<Map<String, dynamic>> get({required String endPoint}) async {
     try {
-      Response response = await _dio.get("$_baseUrl$endPoint");
+      Response response = await _dio.get(
+        "$_baseUrl$endPoint",
+        queryParameters: {'key': ApiEndPoints.apiKey},
+      );
 
       return response.data;
     } catch (e) {
