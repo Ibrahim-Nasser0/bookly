@@ -4,11 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomSearchField extends StatelessWidget {
-  const CustomSearchField({super.key});
+  const CustomSearchField({super.key, this.onSubmitted});
+
+  final void Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onSubmitted: onSubmitted,
+
       style: Styles.titleMedium,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
