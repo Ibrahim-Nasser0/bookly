@@ -11,5 +11,9 @@ Future<void> lunchCustomUrl(BuildContext context, String? url) async {
         context,
       ).showSnackBar(SnackBar(content: Text("Cannot launch $url")));
     }
+  } else {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text("Sorry, book URL is empty.")));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:bookly/core/shared/widgets/custom_error_widget.dart';
 import 'package:bookly/core/shared/widgets/custom_loading_indicator.dart';
-import 'package:bookly/features/home/presentation/view/widgets/beast_seller_card.dart';
+import 'package:bookly/features/home/presentation/view/widgets/newest_book_card.dart';
 import 'package:bookly/features/home/presentation/viewModel/newset_books_cubit/newset_books_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +30,7 @@ class NewestBooksSliver extends StatelessWidget {
                       sizeFactor: animation,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: BestSellerCard(book: state.books[index]),
+                        child: NewestBookCard(book: state.books[index]),
                       ),
                     ),
                   );

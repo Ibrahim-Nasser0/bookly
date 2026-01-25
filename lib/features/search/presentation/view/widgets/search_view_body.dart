@@ -3,11 +3,10 @@ import 'package:bookly/core/shared/widgets/custom_error_widget.dart';
 import 'package:bookly/core/shared/widgets/custom_loading_indicator.dart';
 import 'package:bookly/core/utils/service_locator.dart';
 import 'package:bookly/core/utils/styles.dart';
-import 'package:bookly/features/home/data/models/book_model/book_model.dart';
-import 'package:bookly/features/home/presentation/view/widgets/beast_seller_card.dart';
-import 'package:bookly/features/home/presentation/view/widgets/book_details_view_body.dart';
+import 'package:bookly/features/home/presentation/view/widgets/book_details_widgets/custom_book_details_app_bar.dart';
 import 'package:bookly/features/search/data/repos/search_repo_impl.dart';
 import 'package:bookly/features/search/presentation/view/widgets/custom_search_text_field.dart';
+import 'package:bookly/features/search/presentation/view/widgets/search_result_list.dart';
 import 'package:bookly/features/search/presentation/viewModel/search_cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,17 +61,3 @@ class SearchViewBody extends StatelessWidget {
   }
 }
 
-class SearchResultList extends StatelessWidget {
-  const SearchResultList({super.key, required this.books});
-  final List<BookModel> books;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        itemCount: books.length, // Example item count
-        itemBuilder: (context, index) => BestSellerCard(book: books[index]),
-        separatorBuilder: (context, index) => Gap(10.h),
-      ),
-    );
-  }
-}

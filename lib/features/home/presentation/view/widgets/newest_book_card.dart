@@ -8,8 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class BestSellerCard extends StatelessWidget {
-  const BestSellerCard({super.key, this.book = const BookModel()});
+class NewestBookCard extends StatelessWidget {
+  const NewestBookCard({super.key, this.book = const BookModel()});
   final BookModel book;
 
   @override
@@ -45,6 +45,7 @@ class BestSellerCard extends StatelessWidget {
                     PriceAndRatingRow(
                       averageRating: book.volumeInfo!.averageRating!,
                       ratingCount: book.volumeInfo!.ratingCount!,
+                      price: book.saleInfo?.listPrice?.amount ?? 0,
                     ),
                   ],
                 ),
@@ -94,9 +95,11 @@ class PriceAndRatingRow extends StatelessWidget {
     super.key,
     required this.averageRating,
     required this.ratingCount,
+    this.price = 0,
   });
   final double averageRating;
   final int ratingCount;
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +108,7 @@ class PriceAndRatingRow extends StatelessWidget {
 
       children: [
         Text(
-          'Free', // Price
+          price == 0 ? 'Free' : price.toString(), // Price
           style: Styles.titleMedium,
         ),
 
