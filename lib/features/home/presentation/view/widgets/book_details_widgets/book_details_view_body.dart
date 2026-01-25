@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-
 class BookDetailsViewBody extends StatelessWidget {
   const BookDetailsViewBody({super.key, required this.book});
   final BookModel book;
@@ -19,49 +18,76 @@ class BookDetailsViewBody extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSizes.padding.w),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-
         children: [
           const CustomBookDetailsAppBar(),
           Gap(20.h),
-          Hero(
-            transitionOnUserGestures: true,
-            tag: book.id ?? book.volumeInfo?.title ?? UniqueKey(),
-            child: CachedNetworkImage(
-              imageUrl: book.volumeInfo?.imageLinks?.thumbnail ?? '',
-              height: 220.h,
-              fit: BoxFit.cover,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Center(
-                    child: CircularProgressIndicator(
-                      value: downloadProgress.progress,
-                    ),
-                  ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+          Expanded(
+            child: SingleChildScrollView(
+             physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  BookDetailsInfo(book: book),
+                  Gap(30.h),
+                  BooksActionButton(book: book),
+                  Gap(30.h),
+                  const SimilarBooksList(),
+                  Gap(30.h),
+                ],
+              ),
             ),
           ),
-
-          Gap(20.h),
-          Text(book.volumeInfo?.title ?? 'No Title', style: Styles.titleMedium),
-
-          Text(
-            (book.volumeInfo?.authors?.isNotEmpty ?? false)
-                ? book.volumeInfo!.authors![0]
-                : 'Unknown Author',
-            style: Styles.subTitle,
-          ),
-          Gap(10.h),
-          RateingRow(
-            rating: book.volumeInfo?.averageRating ?? 0,
-            ratingCount: book.volumeInfo?.ratingCount ?? 0,
-          ),
-          Gap(30.h),
-          BooksActionButton(book: book),
-          Gap(30.h),
-          const SimilarBooksList(),
         ],
       ),
     );
   }
 }
 
+class BookDetailsInfo extends StatelessWidget {
+  const BookDetailsInfo({super.key, required this.book});
+
+  final BookModel book;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Hero(
+          transitionOnUserGestures: true,
+          tag: book.id ?? book.volumeInfo?.title ?? UniqueKey(),
+          child: CachedNetworkImage(
+            imageUrl: book.volumeInfo?.imageLinks?.thumbnail ?? '',
+            height: 220.h,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Center(
+                  child: CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                  ),
+                ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ),
+
+        Gap(20.h),
+        Text(
+          book.volumeInfo?.title ?? 'No Title',
+          style: Styles.titleMedium.copyWith(),
+          textAlign: TextAlign.center,
+        ),
+
+        Text(
+          (book.volumeInfo?.authors?.isNotEmpty ?? false)
+              ? book.volumeInfo!.authors![0]
+              : 'Unknown Author',
+          style: Styles.subTitle,
+        ),
+        Gap(10.h),
+        RateingRow(
+          rating: book.volumeInfo?.averageRating ?? 0,
+          ratingCount: book.volumeInfo?.ratingCount ?? 0,
+        ),
+      ],
+    );
+  }
+}

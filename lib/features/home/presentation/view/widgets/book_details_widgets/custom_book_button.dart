@@ -1,6 +1,3 @@
-
-
-
 import 'package:bookly/core/constant/app_sizes.dart';
 import 'package:bookly/core/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +19,8 @@ class CustomBookButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        minimumSize: Size(130.w, 48.h),
+        minimumSize: Size(130.w, 45.h),
+
         shape: RoundedRectangleBorder(
           borderRadius: left
               ? BorderRadius.only(
@@ -43,6 +41,7 @@ class CustomBookButton extends StatelessWidget {
         style: Styles.titleMedium.copyWith(
           color: left ? Colors.black : Colors.white,
           fontWeight: FontWeight.w900,
+          fontSize: 12.sp,
         ),
       ),
     );

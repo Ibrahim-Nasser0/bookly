@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract class Styles {
-  static final titleMedium = TextStyle(
+  static final titleMedium = GoogleFonts.montserrat(
     fontSize: 18.sp,
     fontWeight: FontWeight.w600,
     color: Colors.white,
-    fontFamily: 'Montserrat',
-    overflow: TextOverflow.ellipsis,
   );
-  static final subTitle = TextStyle(
-    color: Colors.white,
+
+  static final subTitle = GoogleFonts.montserrat(
+    color: Colors.white70,
     fontSize: 14.sp,
-    fontFamily: 'Montserrat',
+
     fontWeight: FontWeight.w500,
-    overflow: TextOverflow.ellipsis,
   );
 }

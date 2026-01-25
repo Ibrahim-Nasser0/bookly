@@ -1,12 +1,14 @@
 import 'package:bookly/core/constant/app_sizes.dart';
 import 'package:bookly/core/shared/widgets/custom_error_widget.dart';
 import 'package:bookly/core/shared/widgets/custom_loading_indicator.dart';
+import 'package:bookly/core/utils/app_router.dart';
 import 'package:bookly/features/home/presentation/view/widgets/book_card.dart';
 import 'package:bookly/features/home/presentation/viewModel/featured_books_cubit/featured_books_cubit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeSlider extends StatelessWidget {
   const HomeSlider({super.key});
@@ -29,7 +31,13 @@ class HomeSlider extends StatelessWidget {
             itemCount: state.books.length,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) =>
-                    BookCard(book: state.books[itemIndex]),
+                    GestureDetector(
+                      onTap: () => GoRouter.of(context).push(
+                        AppRouter.bookDetailsView,
+                        extra: state.books[itemIndex],
+                      ),
+                      child: BookCard(book: state.books[itemIndex]),
+                    ),
             options: CarouselOptions(
               height: AppSizes.cardHeight.h,
               aspectRatio: AppSizes.cardWidth.w / AppSizes.cardHeight.h,
